@@ -42,7 +42,12 @@ router.post('/subscribe', function (req, res) {
             });
 
 
-            /*prevent abuse - only allow 3 emails from same IP*/
+            /* 
+            prevent abuse
+              - Only allow 3 emails from same IP
+              - Send Welcome mail, make sure it doesn't bounce.
+              
+            */
             User.checkIpCount(ReturnUser, function (err, failed) {
                 if (err) { throw err; }
                 if (failed) {
@@ -55,7 +60,7 @@ router.post('/subscribe', function (req, res) {
                         User.saveUser(user, function (err, user) {
                             if (err) throw err;
                             res.render('refer-a-friend', { referralCode: user.referralCode, default_url : req.get('host'), twitter_message :"bene's test" });
-                            Mail.sendWelcomeMail(ReturnUser.email, function(body){})
+                            Mail.sendWelcomeMail(ReturnUser.email, user.referralCode, function(body){})
                         });
                     });
                 }
@@ -87,7 +92,7 @@ module.exports = router;
 
 
 
-
+/*
 var SECRET = '6LdIUhAUAAAAAKJq6vOeE0M8ohN_KnWL0hiApZ9Y'
 function verifyRecaptcha(key, callback) {
     https.get("https://www.google.com/recaptcha/api/siteverify?secret=" + SECRET + "&response=" + key, function (res) {
@@ -105,4 +110,4 @@ function verifyRecaptcha(key, callback) {
             }
         });
     });
-}
+}*/
