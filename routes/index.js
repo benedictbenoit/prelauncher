@@ -60,7 +60,7 @@ router.post('/subscribe', function (req, res) {
                         User.saveUser(user, function (err, user) {
                             if (err) throw err;
                             res.render('refer-a-friend', { referralCode: user.referralCode, default_url : req.get('host'), twitter_message :"bene's test" });
-                            Mail.sendWelcomeMail(ReturnUser.email, user.referralCode, function(body){})
+                            Mail.sendWelcomeMail(ReturnUser.email, req.get('host'), user.referralCode, function(body){})
                         });
                     });
                 }

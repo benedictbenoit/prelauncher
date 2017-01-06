@@ -13,12 +13,12 @@ module.exports.checkEmailAddress = function(email, callback) {
     });
 }
 
-module.exports.sendWelcomeMail = function(email, referralId, callback) {
+module.exports.sendWelcomeMail = function(email, host, referralId, callback) {
     var data = {
         from: 'info@seewaldo.com',
         to: email,
         subject: 'Hello to SeeWaldo',
-        text: 'Welcome to our service.<br><br>Invite friends using following link: ' + req.get('host') + '?referralId=' + referralId
+        text: 'Welcome to our service.<br><br>Invite friends using following link: ' + host + '?referralId=' + referralId
     };
     
     mailgun.messages().send(data, function (error, body) {
