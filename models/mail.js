@@ -18,7 +18,7 @@ module.exports.sendWelcomeMail = function(email, host, referralId, callback) {
         from: 'info@seewaldo.com',
         to: email,
         subject: 'Hello to SeeWaldo',
-        text: 'Welcome to our service.<br><br>Invite friends using following link: ' + host + '?referralId=' + referralId
+        text: 'Welcome to our service. Invite friends using following link: ' + host + '?referralId=' + referralId
     };
     
     mailgun.messages().send(data, function (error, body) {
