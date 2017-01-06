@@ -1,0 +1,25 @@
+{
+  "name": "waldo_prelaunch_referralcampaign",
+  "version": "0.1.0",
+  "description": "Waldo Prelaunch Referral campaign",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Benedict Benoit",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "*",
+    "connect-flash": "*",
+    "cookie-parser": "^1.4.1",
+    "express": "*",
+    "express-handlebars": "*",
+    "express-messages": "*",
+    "express-session": "*",
+    "express-validator": "*",
+    "mongodb": "*",
+    "mongoose": "*",
+    "randomstring": "*",
+    "mailgun-js": "*"
+  }
+}
