@@ -3,7 +3,7 @@ var randomString = require('randomstring');
 
 // User Schema
 var UserSchema = mongoose.Schema({
-    email: { type: String, index: true},
+    email: { type: String, unique: true},
     ip: {type: String},
     referralCode : {type: String},
     referrals: [{ email: {type: String}}],

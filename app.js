@@ -9,7 +9,7 @@ var flash = require('connect-flash');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 
-mongoose.connect(process.env.MONGODB_URI); //environment variable
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/ReferralCampaign'); //environment variable
 var db = mongoose.connection;
 
 var routes = require('./routes/index');

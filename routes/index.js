@@ -37,7 +37,7 @@ router.post('/subscribe', function (req, res) {
             //Create new users
             ReturnUser = new User({
                 email: req.body.email,
-                ip: req.ip,
+                ip: req.headers['x-forwarded-for'],
                 referralCount: 0
             });
 
