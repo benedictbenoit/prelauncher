@@ -111,7 +111,7 @@ router.post('/mail/delivered', msg.any(), function (req, res, next) {
 });
 
 
-router.get('/mail/failed', msg.any(),  function (req, res, next) {
+router.post('/mail/failed', msg.any(),  function (req, res, next) {
     Mail.validateWebhook(req, function(err){
         if(err) {
             res.status(500).json({ error: { message: err}});
