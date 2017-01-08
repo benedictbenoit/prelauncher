@@ -4,6 +4,7 @@ var randomString = require('randomstring');
 // User Schema
 var UserSchema = mongoose.Schema({
     email: { type: String, unique: true},
+    verified: {type: Boolean},
     ip: {type: String},
     referralCode : {type: String},
     referrals: [{ email: {type: String}}],
@@ -42,6 +43,35 @@ module.exports.getNewUniqueReferralCode = function(user, callback) {
         user.referralCode = referralCodeCallback;
         callback(err, user);
     });
+}
+
+module.exports.setVerifiedEmail = function(userEmail, verified, callback) {
+	User.findOne({email: userEmail}, function(err, user){
+        if(err) throw err;
+        if(user === null) {
+            callback('User not found:' + email);
+            return;
+        }
+
+        if(verified){
+            user.verified = true;
+        } else {
+            user.verified = false;
+            //delete all the referrals
+            User.findOneAndUpdate({'referrals.email': userEmail },
+             {'$pull': {'referrals': {'email' : userEmail}},
+              '$inc': {referralCount : -1}
+             }, 
+             function(err, tempUser){
+                if(err) throw err;
+            });
+        }
+        user.save();
+        callback(null);
+    });
+
+
+
 }
 
 

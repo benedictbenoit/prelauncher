@@ -1,6 +1,6 @@
 var mailgun = require('mailgun-js')({ apiKey: (process.env.MAILGUN_API_KEY || 'key-9dce3f573e6a4c36e4911aacc69ba02b'), domain: (process.env.MAILGUN_DOMAIN || 'seewaldo.com') })
 var mailgun_validation = require('mailgun-js')({ apiKey: (process.env.MAILGUN_VALIDATION_KEY || 'pubkey-a8b9d5f242f7900bfd98c4d53df74b1e'), domain: (process.env.MAILGUN_DOMAIN || 'seewaldo.com') })
-
+var User = require('../')
 
 module.exports.checkEmailAddress = function(email, callback) {
     mailgun_validation.get("/address/validate", { address: email }, function (err, res) {
@@ -26,4 +26,15 @@ module.exports.sendWelcomeMail = function(email, host, referralId, callback) {
         console.log(body);
         callback(body)
     });
+}
+
+module.exports.validateWebhook = function (req, callback) {
+    var body = req.body;
+ 
+    if (!mailgun.validateWebhook(body.timestamp, body.token, body.signature)) {
+      callback('Invalid signature. Are you even Mailgun?');
+      return;
+    } else {
+        callback(null);
+    }
 }

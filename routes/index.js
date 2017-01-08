@@ -78,13 +78,57 @@ router.post('/subscribe', function (req, res) {
 
                     User.saveUser(user, function (err, user) {
                         if (err) throw err;
-                        console.log(user);
                     });
                 });
 
             }
         });
     // }); --recaptcha
+});
+
+// MAIL Hooks
+var multer = require('multer');  
+var msg = multer(); 
+
+router.post('/mail/delivered', msg.any(), function (req, res, next) {
+    Mail.validateWebhook(req, function(err){
+        if(err) {
+            res.status(500).json({ error: { message: err}});
+            return;
+        } else {
+            User.setVerifiedEmail(req.body.recipient, true, function(err){
+                if(err) {
+                    console.log(err);
+                    res.status(500).json({ error: { message: err}});
+                    return;
+                } else {
+                    res.status(200);
+                    return;
+                }
+            });          
+        }
+    })
+});
+
+
+router.get('/mail/failed', msg.any(),  function (req, res, next) {
+    Mail.validateWebhook(req, function(err){
+        if(err) {
+            res.status(500).json({ error: { message: err}});
+            return;
+        } else {
+            User.setVerifiedEmail(req.body.recipient, false, function(err){
+                if(err) {
+                    console.log(err);
+                    res.status(500).json({ error: { message: err}});
+                    return;
+                } else {
+                    res.status(200);
+                    return;
+                }
+            });          
+        }
+    })
 });
 
 
