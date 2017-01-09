@@ -49,7 +49,7 @@ module.exports.setVerifiedEmail = function(userEmail, verified, callback) {
 	User.findOne({email: userEmail}, function(err, user){
         if(err) throw err;
         if(user === null) {
-            callback('User not found:' + email);
+            callback('User not found:' + userEmail);
             return;
         }
 
